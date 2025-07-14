@@ -6,7 +6,7 @@ import { CgGoogleTasks } from "react-icons/cg";
 import ButtonAddBoard from "../My ui/button_addboard";
 import ButtonBoard from "../My ui/button_board";
 
-export default function Sidebar() {
+export default function Sidebar({ boards }) {
   const purple = "#645fc6";
   const background_Sidebar = "#2c2c38";
   const background_MainContent = "#21212d";
@@ -34,9 +34,13 @@ export default function Sidebar() {
           </h3>
           <div className="flex flex-col gap-2">
             {/* board button */}
-            <ButtonBoard selected={true} />
-            <ButtonBoard selected={false} />
-            <ButtonBoard selected={false} />
+            {boards.map((board) => (
+              <ButtonBoard
+                key={board.id}
+                selected={board.selected}
+                title={board.title}
+              />
+            ))}
             {/* add board button  */}
             <ButtonAddBoard />
           </div>

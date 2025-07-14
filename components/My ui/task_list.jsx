@@ -1,18 +1,21 @@
 import Task from "./task";
 
-export default function TaskList() {
+export default function TaskList({ color, status }) {
   const text = "#8e94a3";
 
   return (
-    <div className="w-1/3 flex flex-col items-start gap-4">
+    <div className="w-2/4 flex flex-col items-start gap-4">
       {/* title of the list */}
       <div className="flex items-center gap-3">
-        <div className="w-3 h-3 bg-[#47c2e5] rounded-full"></div>
+        <div
+          className="w-3 h-3 rounded-full"
+          style={{ backgroundColor: color }}
+        ></div>
         <p
-          className="text-[0.75rem] font-bold tracking-widest"
+          className="text-[0.75rem] font-bold tracking-widest uppercase"
           style={{ color: text }}
         >
-          TODO (4)
+          {status} (4)
         </p>
       </div>
 

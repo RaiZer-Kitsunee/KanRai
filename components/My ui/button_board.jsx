@@ -1,6 +1,6 @@
 import { TbLayoutBoardSplit } from "react-icons/tb";
 
-export default function ButtonBoard({ selected }) {
+export default function ButtonBoard({ selected, title }) {
   const purple = "#645fc6";
   const background_Sidebar = "#2c2c38";
   const text = "#8e94a3";
@@ -20,7 +20,7 @@ export default function ButtonBoard({ selected }) {
           color: selected ? "white" : text,
         }}
       >
-        Eternal Night
+        {title}
       </p>
     </div>
   );

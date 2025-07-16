@@ -1,15 +1,9 @@
 import { Task } from "./task";
 
 export class List {
-  constructor(id, title) {
+  constructor(id, title, tasks = []) {
     this.id = id;
     this.title = title;
-    this.tasks = [];
-  }
-
-  addTask(task) {
-    if (task instanceof Task) {
-      this.tasks.push(task);
-    }
+    this.tasks = tasks;
   }
 }

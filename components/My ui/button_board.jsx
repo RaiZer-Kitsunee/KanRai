@@ -1,27 +1,36 @@
+import { CgEnter } from "react-icons/cg";
 import { TbLayoutBoardSplit } from "react-icons/tb";
 
-export default function ButtonBoard({ selected, title }) {
+export default function ButtonBoard({ board, closed, onclick }) {
   const purple = "#645fc6";
   const background_Sidebar = "#2c2c38";
   const text = "#8e94a3";
 
   return (
-    <div
-      className="w-[92%] h-10 pl-[7%] flex items-center rounded-r-full gap-4"
-      style={{ backgroundColor: selected ? purple : background_Sidebar }}
+    <button
+      onClick={onclick}
+      className="w-[92%] h-10 pl-[7%] flex items-center rounded-r-full gap-4 cursor-pointer"
+      style={{
+        backgroundColor: board.selected ? purple : background_Sidebar,
+        justifyContent: closed ? "center" : "start",
+      }}
     >
       <TbLayoutBoardSplit
         className="text-[120%]"
-        style={{ color: selected ? "white" : text }}
+        style={{ color: board.selected ? "white" : text }}
       />
-      <p
-        className="text-[0.9rem] font-semibold tracking-wide"
-        style={{
-          color: selected ? "white" : text,
-        }}
-      >
-        {title}
-      </p>
-    </div>
+      {closed ? (
+        <></>
+      ) : (
+        <p
+          className="text-[0.9rem] font-semibold tracking-wide"
+          style={{
+            color: board.selected ? "white" : text,
+          }}
+        >
+          {board.title}
+        </p>
+      )}
+    </button>
   );
 }

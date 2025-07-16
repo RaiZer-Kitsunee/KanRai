@@ -1,10 +1,19 @@
+import ViewTaskDialog from "../Dialog/viewtask_dialog";
 import Task from "./task";
 
-export default function TaskList({ color, status }) {
+export default function TaskList({ status, list }) {
   const text = "#8e94a3";
+  const color =
+    status === "Todo"
+      ? "#47c2e5"
+      : status === "Doing"
+      ? "#8371f0"
+      : status === "Done"
+      ? "#69e2ae"
+      : "#d44444";
 
   return (
-    <div className="w-2/4 flex flex-col items-start gap-4">
+    <div className="w-1/4 flex flex-col items-start gap-4">
       {/* title of the list */}
       <div className="flex items-center gap-3">
         <div
@@ -12,20 +21,21 @@ export default function TaskList({ color, status }) {
           style={{ backgroundColor: color }}
         ></div>
         <p
-          className="text-[0.75rem] font-bold tracking-widest uppercase"
+          className="text-[0.6rem] font-bold tracking-widest uppercase"
           style={{ color: text }}
         >
-          {status} (4)
+          {status} ({list.tasks.length})
         </p>
       </div>
 
       {/* list */}
       <div className="flex flex-col gap-4 w-full h-full">
         {/* item */}
-        <Task title={"Build UI for the game"} />
-        <Task title={"Build VFX to the game"} />
-        <Task title={"Build Character controller with the rb function"} />
-        <Task title={"Build Character controller with the rb function"} />
+        {list.tasks.map((task) => (
+          <ViewTaskDialog task={task} listTitle={list.title}>
+            <Task key={task.id} task={task} />
+          </ViewTaskDialog>
+        ))}
       </div>
     </div>
   );

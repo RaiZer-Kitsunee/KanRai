@@ -6,8 +6,4 @@ export class SubTask {
     this.title = title;
     this.completed = completed;
   }
-
-  toggle() {
-    this.completed = !this.completed;
-  }
 }

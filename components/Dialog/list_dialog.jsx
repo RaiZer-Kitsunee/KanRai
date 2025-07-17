@@ -16,9 +16,11 @@ export default function ListDialog({
   value,
   setValue,
   onSubmit,
+  open,
+  setOpen,
 }) {
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>{children}</DialogTrigger>
       <DialogOverlay className="fixed inset-0 bg-blackA6 data-[state=open]:animate-overlayShow" />
       <DialogContent className={"bg-[#2c2c38] border-none"}>

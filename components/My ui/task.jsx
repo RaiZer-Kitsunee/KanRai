@@ -4,13 +4,15 @@ export default function Task({ task }) {
 
   return (
     <div
-      className="w-full flex flex-col gap-1 py-4 pl-3 rounded-md"
+      className="w-full flex flex-col items-start gap-1 py-4 pl-3 rounded-md "
       style={{ backgroundColor: background_Sidebar }}
     >
-      <h3 className="font-semibold text-[0.9rem]">{task.title}</h3>
+      <h3 className="font-semibold text-[0.9rem] overflow-clip">
+        {task.title}
+      </h3>
       <p className="font-semibold text-[0.7rem]" style={{ color: text }}>
         {task.subtasks.filter((s) => s.completed).length} of{" "}
-        {task.subtasks.length} substasks
+        {task.subtasks.length} subtasks
       </p>
     </div>
   );

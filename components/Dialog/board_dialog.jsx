@@ -14,6 +14,7 @@ export default function BoardDialog({
   children,
   title,
   description,
+  buttonName,
   value,
   setValue,
   onSubmit,
@@ -43,7 +44,7 @@ export default function BoardDialog({
               onClick={onSubmit}
               className="inline-flex h-[35px] items-center justify-center rounded bg-[#333] px-[15px] font-medium leading-none text-white outline-none outline-offset-1 hover:bg-[#645fc6] focus-visible:outline-2 focus-visible:outline-green6 select-none"
             >
-              Save changes
+              {buttonName}
             </button>
           </DialogClose>
         </div>

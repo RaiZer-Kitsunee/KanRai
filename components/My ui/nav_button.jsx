@@ -1,8 +1,8 @@
 import { Button } from "../ui/button";
 
-export default function NavButton({ title }) {
+export default function NavButton({ title, onClick }) {
   return (
-    <Button className={"bg-[#645fc6]"} variant="default">
+    <Button onClick={onClick} className={"bg-[#645fc6]"} variant="default">
       {title}
     </Button>
   );

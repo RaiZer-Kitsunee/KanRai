@@ -70,6 +70,7 @@ export default function Sidebar({
                 addBoard(boardTitle);
                 setBoardTitle("");
               }}
+              buttonName={"Save"}
             >
               <ButtonAddBoard closed={closed} />
             </BoardDialog>

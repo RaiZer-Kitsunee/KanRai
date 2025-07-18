@@ -16,16 +16,13 @@ export default function Sidebar({
   addBoard,
   closed,
   setClosed,
+  setBoards,
 }) {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   const [boardTitle, setBoardTitle] = useState("");
   const [open, setOpen] = useState(false);
-
-  const purple = "#645fc6";
-  const background_MainContent = "#21212d";
-  const text = "#8e94a3";
 
   useEffect(() => {
     const data = localStorage.getItem("theme");
@@ -83,7 +80,7 @@ export default function Sidebar({
               value={boardTitle}
               setValue={setBoardTitle}
               onSubmit={() => {
-                addBoard(boardTitle);
+                addBoard(boardTitle, setBoards);
                 setBoardTitle("");
               }}
               buttonName={"Save"}
@@ -107,29 +104,28 @@ export default function Sidebar({
             <>
               {theme === "dark" ? (
                 <MdLightMode
-                  onclick={() => setTheme("light")}
-                  className="text-[1.2rem] cursor-pointer"
-                  style={{ color: text }}
+                  onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+                  className="text-[1.2rem] text-[#8e94a3] cursor-pointer"
                 />
               ) : (
                 <MdDarkMode
-                  onclick={() => setTheme("dark")}
-                  className="text-[1.2rem] cursor-pointer"
-                  style={{ color: text }}
+                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                  className="text-[1.2rem] text-[#8e94a3] cursor-pointer"
                 />
               )}
             </>
           ) : (
             <>
-              <MdDarkMode className="text-[1.2rem]" style={{ color: text }} />
+              <MdDarkMode className="text-[1.2rem] text-[#8e94a3]" />
               <Switch
+              
                 checked={theme === "dark" ? false : true}
                 onCheckedChange={() =>
                   setTheme(theme === "dark" ? "light" : "dark")
                 }
                 className=" data-[state=checked]:bg-[#645fc6]"
               />
-              <MdLightMode className="text-[1.2rem]" style={{ color: text }} />
+              <MdLightMode className="text-[1.2rem] text-[#8e94a3]" />
             </>
           )}
         </div>
@@ -145,18 +141,16 @@ export default function Sidebar({
             <>
               <IoMdEye
                 onClick={() => setClosed(!closed)}
-                className="text-[1.2rem] cursor-pointer"
-                style={{ color: text }}
+                className="text-[1.2rem] cursor-pointer text-[#8e94a3]"
               />
             </>
           ) : (
             <>
               <FaEyeSlash
                 onClick={() => setClosed(!closed)}
-                className="cursor-pointer"
-                style={{ color: text }}
+                className="cursor-pointer text-[#8e94a3]"
               />
-              <p className="text-[0.8rem] font-bold" style={{ color: text }}>
+              <p className="text-[0.8rem] font-bold text-[#8e94a3]">
                 Hide Sidebar
               </p>
             </>

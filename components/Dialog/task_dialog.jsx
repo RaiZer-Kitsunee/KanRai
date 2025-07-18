@@ -19,6 +19,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { toast } from "sonner";
 
 export default function AddTaskDialog({
   children,
@@ -58,16 +59,17 @@ export default function AddTaskDialog({
 
     if (title.trim() === "") {
       alert("title is empty");
+      toast.error("Title is required");
       return;
     }
 
     if (description.trim() === "") {
-      alert("description is empty");
+      toast.error("description is required");
       return;
     }
 
     if (subtasks.find((sub) => sub.title.trim() === "")) {
-      alert("subtask is empty");
+      toast.error("subtask is required");
       return;
     }
 

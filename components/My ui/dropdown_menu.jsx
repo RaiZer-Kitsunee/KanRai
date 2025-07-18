@@ -10,7 +10,11 @@ export default function MyDropdownMenu({ onDelete, isSmall, onEdit }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="text-[1.2rem] cursor-pointer">
-        <HiDotsVertical className={`${isSmall ? "text-[0.9rem]" : ""}`} />
+        <HiDotsVertical
+          className={`${
+            isSmall ? "text-[0.9rem]" : ""
+          } text-black dark:text-white`}
+        />
       </DropdownMenuTrigger>
       <DropdownMenuContent
         className={"w-30 mr-6 bg-[#2c2c38] border-[#8e94a3]"}

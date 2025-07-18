@@ -11,6 +11,7 @@ export default function Navbar({
   addTaskToList,
   deleteBoard,
   editBoard,
+  setBoards,
 }) {
   const background_Sidebar = "#2c2c38";
   const [boardTitle, setBoardTitle] = useState("");
@@ -53,7 +54,7 @@ export default function Navbar({
       {changing ? (
         <NavButton
           onClick={() => {
-            editBoard(selectedBoard.id, boardTitle);
+            editBoard(selectedBoard.id, boardTitle, setBoards);
             setChanging(!changing);
           }}
           title={"Save"}
@@ -66,7 +67,7 @@ export default function Navbar({
             value={listTitle}
             setValue={setListTitle}
             onSubmit={() => {
-              addListToSelectedBoard(listTitle);
+              addListToSelectedBoard(listTitle, setBoards);
               setListTitle("");
             }}
             open={openColum}
@@ -80,7 +81,13 @@ export default function Navbar({
 
           <AddTaskDialog
             onCreate={() =>
-              addTaskToList(status, taskTitle, taskDescription, subtasks)
+              addTaskToList(
+                status,
+                taskTitle,
+                taskDescription,
+                subtasks,
+                setBoards
+              )
             }
             title={taskTitle}
             setTitle={setTaskTitle}
@@ -102,7 +109,7 @@ export default function Navbar({
 
           {/* just the drop menu of the three point */}
           <MyDropdownMenu
-            onDelete={() => deleteBoard(selectedBoard.id)}
+            onDelete={() => deleteBoard(selectedBoard.id, setBoards)}
             onEdit={() => setChanging(!changing)}
           />
         </div>

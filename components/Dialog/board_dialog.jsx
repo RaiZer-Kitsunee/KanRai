@@ -9,7 +9,7 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Input } from "../ui/input";
-import { Label } from "../ui/label";
+import { toast } from "sonner";
 
 export default function BoardDialog({
   children,
@@ -27,7 +27,7 @@ export default function BoardDialog({
 
     if (value.trim() === "") {
       // Don't close dialog
-      alert("Title is required");
+      toast.error("title is empty");
       return;
     }
 
@@ -39,8 +39,16 @@ export default function BoardDialog({
       <DialogTrigger>{children}</DialogTrigger>
       <DialogOverlay className="fixed inset-0 bg-blackA6 data-[state=open]:animate-overlayShow" />
       <DialogContent className={" bg-[#FFFFFF] border-none dark:bg-[#2c2c38]"}>
-        <DialogTitle className={"text-[#0F172A] dark:text-[#FFFFFF]"}>
-          {title}
+        <DialogTitle
+          className={"flex justify-between text-[#0F172A] dark:text-[#FFFFFF]"}
+        >
+          <p>{title}</p>
+          <p
+            onClick={() => setOpen(!open)}
+            className="text-[0.9rem] cursor-pointer"
+          >
+            X
+          </p>
         </DialogTitle>
         <DialogDescription
           className={"font-bold text-[#64748B] dark:text-[#A3A3A3]"}

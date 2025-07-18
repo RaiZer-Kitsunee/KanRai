@@ -9,6 +9,7 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Input } from "../ui/input";
+import { toast } from "sonner";
 
 export default function ListDialog({
   children,
@@ -25,7 +26,7 @@ export default function ListDialog({
     e.preventDefault();
 
     if (value.trim() === "") {
-      alert("Title is required");
+      toast.error("Title is required");
       return;
     }
 

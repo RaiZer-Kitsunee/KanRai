@@ -10,6 +10,7 @@ export default function BoardPage({
   editTask,
   addSubTask,
   editSubTask,
+  setBoards,
 }) {
   return (
     <div className="w-full bg-[#F7F9FC] flex pt-5 px-6  gap-4 dark:bg-[#21212d]">
@@ -27,6 +28,7 @@ export default function BoardPage({
           editTask={editTask}
           addSubTask={addSubTask}
           editSubTask={editSubTask}
+          setBoards={setBoards}
         />
       ))}
     </div>

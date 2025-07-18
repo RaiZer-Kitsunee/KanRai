@@ -31,6 +31,7 @@ export default function ViewTaskDialog({
   addSubTask,
   editSubTask,
   children,
+  setBoards,
 }) {
   const completedCount = task.subtasks.filter((s) => s.completed).length;
 
@@ -63,14 +64,14 @@ export default function ViewTaskDialog({
               value={subTaskAddTitle}
               setValue={setSubTaskAddTitle}
               onSubmit={() => {
-                addSubTask(list.id, task.id, subTaskAddTitle);
+                addSubTask(list.id, task.id, subTaskAddTitle, setBoards);
                 setSubTaskAddTitle("");
               }}
               open={openSubTask}
               setOpen={setOpenSubTask}
             />
             <MyDropdownMenu
-              onDelete={() => deleteTask(list.id, task.id)}
+              onDelete={() => deleteTask(list.id, task.id, setBoards)}
               onEdit={() => setOpenTask(!openTask)}
             />
             <ListDialog
@@ -78,7 +79,9 @@ export default function ViewTaskDialog({
               description={"Editing Task title here, just Click At Save"}
               value={taskEditTitle}
               setValue={setTaskEditTitle}
-              onSubmit={() => editTask(list.id, task.id, taskEditTitle)}
+              onSubmit={() =>
+                editTask(list.id, task.id, taskEditTitle, setBoards)
+              }
               open={openTask}
               setOpen={setOpenTask}
               pastValue={task.title}
@@ -105,7 +108,7 @@ export default function ViewTaskDialog({
                 id={`subtask-${subtask.id}`}
                 checked={subtask.completed}
                 onCheckedChange={() =>
-                  onToggleSubtask(list.id, task.id, subtask.id)
+                  onToggleSubtask(list.id, task.id, subtask.id, setBoards)
                 }
                 className={"border-[#CBD5E1] dark:border-[#4B5563]"}
               />
@@ -123,7 +126,13 @@ export default function ViewTaskDialog({
                 value={subTaskEditTitle}
                 setValue={setSubTaskEditTitle}
                 onSubmit={() =>
-                  editSubTask(list.id, task.id, subtask.id, subTaskEditTitle)
+                  editSubTask(
+                    list.id,
+                    task.id,
+                    subtask.id,
+                    subTaskEditTitle,
+                    setBoards
+                  )
                 }
                 open={openEditSubTask}
                 setOpen={setOpenEditSubTask}
@@ -138,7 +147,9 @@ export default function ViewTaskDialog({
                 <FaEdit />
               </Button>
               <Button
-                onClick={() => deleteSubtask(list.id, task.id, subtask.id)}
+                onClick={() =>
+                  deleteSubtask(list.id, task.id, subtask.id, setBoards)
+                }
                 className={
                   "w-4 h-4 p-3 m-0 font-bold rounded-sm justify-center bg-[#21212d] dark:text-white items-center hidden group-hover:flex hover:bg-violet-500 hover:text-black"
                 }

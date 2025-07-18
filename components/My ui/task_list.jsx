@@ -16,6 +16,7 @@ export default function TaskList({
   editTask,
   addSubTask,
   editSubTask,
+  setBoards,
 }) {
   const { theme, setTheme } = useTheme();
 
@@ -61,7 +62,7 @@ export default function TaskList({
         </div>
         <div className="flex ">
           <MyDropdownMenu
-            onDelete={() => deleteList(list.id)}
+            onDelete={() => deleteList(list.id, setBoards)}
             isSmall={true}
             onEdit={() => setOpen(!open)}
           />
@@ -70,7 +71,7 @@ export default function TaskList({
             description={"Editing list Title here, click Save once you finish"}
             value={listTitle}
             setValue={setListTitle}
-            onSubmit={() => editList(list.id, listTitle)}
+            onSubmit={() => editList(list.id, listTitle, setBoards)}
             open={open}
             setOpen={setOpen}
             pastValue={list.title}
@@ -92,6 +93,7 @@ export default function TaskList({
             editTask={editTask}
             addSubTask={addSubTask}
             editSubTask={editSubTask}
+            setBoards={setBoards}
           >
             <Task task={task} />
           </ViewTaskDialog>

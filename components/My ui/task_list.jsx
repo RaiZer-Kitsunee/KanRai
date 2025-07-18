@@ -3,6 +3,7 @@ import ListDialog from "../Dialog/list_dialog";
 import ViewTaskDialog from "../Dialog/viewtask_dialog";
 import MyDropdownMenu from "./dropdown_menu";
 import Task from "./task";
+import { useTheme } from "next-themes";
 
 export default function TaskList({
   status,
@@ -16,14 +17,25 @@ export default function TaskList({
   addSubTask,
   editSubTask,
 }) {
+  const { theme, setTheme } = useTheme();
+
   const text = "#8e94a3";
-  const color =
+  const colorLight =
     status === "Todo"
-      ? "#47c2e5"
+      ? "#3B82F6"
       : status === "Doing"
-      ? "#8371f0"
+      ? "#8B5CF6"
       : status === "Done"
-      ? "#69e2ae"
+      ? "#22C55E"
+      : "#d44444";
+
+  const colorDark =
+    status === "Todo"
+      ? "#49A9FC"
+      : status === "Doing"
+      ? "#A78BFA"
+      : status === "Done"
+      ? "#56D9A0"
       : "#d44444";
 
   const [open, setOpen] = useState(false);
@@ -36,7 +48,9 @@ export default function TaskList({
         <div className="flex items-center gap-3">
           <div
             className="w-3 h-3 rounded-full"
-            style={{ backgroundColor: color }}
+            style={{
+              backgroundColor: theme === "dark" ? colorDark : colorLight,
+            }}
           ></div>
           <p
             className="text-[0.6rem] font-bold tracking-widest uppercase"
@@ -47,7 +61,7 @@ export default function TaskList({
         </div>
         <div className="flex ">
           <MyDropdownMenu
-            onClick={() => deleteList(list.id)}
+            onDelete={() => deleteList(list.id)}
             isSmall={true}
             onEdit={() => setOpen(!open)}
           />
@@ -59,6 +73,7 @@ export default function TaskList({
             onSubmit={() => editList(list.id, listTitle)}
             open={open}
             setOpen={setOpen}
+            pastValue={list.title}
           />
         </div>
       </div>

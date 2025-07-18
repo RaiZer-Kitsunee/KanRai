@@ -45,14 +45,14 @@ export default function ViewTaskDialog({
   return (
     <Dialog>
       <DialogTrigger>{children}</DialogTrigger>
-      <DialogContent className="max-w-md space-y-4 bg-[#2c2c38] border-none">
-        <DialogTitle className="text-xl font-semibold flex justify-between items-center">
+      <DialogContent className="max-w-md space-y-4 bg-[#FFFFFF] border-none dark:bg-[#2c2c38]">
+        <DialogTitle className="text-xl font-semibold flex justify-between items-center text-[#0F172A] dark:text-[#FFFFFF]">
           {task.title}
           <div className="flex">
             <Button
               onClick={() => setOpenSubTask(!openSubTask)}
               className={
-                "w-6 h-6 text-[1.5rem] p-0  bg-[#2c2c38] border-white mr-2 rounded-sm flex justify-center items-center hover:bg-violet-500 hover:text-black"
+                "w-6 h-6 text-[1.5rem] p-0  bg-[#2c2c38] border-white dark:text-[#ffffff] mr-2 rounded-sm flex justify-center items-center hover:bg-violet-500 hover:text-black"
               }
             >
               +
@@ -62,12 +62,15 @@ export default function ViewTaskDialog({
               description={"Here Create Subtasks, click save once finish"}
               value={subTaskAddTitle}
               setValue={setSubTaskAddTitle}
-              onSubmit={() => addSubTask(list.id, task.id, subTaskAddTitle)}
+              onSubmit={() => {
+                addSubTask(list.id, task.id, subTaskAddTitle);
+                setSubTaskAddTitle("");
+              }}
               open={openSubTask}
               setOpen={setOpenSubTask}
             />
             <MyDropdownMenu
-              onClick={() => deleteTask(list.id, task.id)}
+              onDelete={() => deleteTask(list.id, task.id)}
               onEdit={() => setOpenTask(!openTask)}
             />
             <ListDialog
@@ -78,21 +81,24 @@ export default function ViewTaskDialog({
               onSubmit={() => editTask(list.id, task.id, taskEditTitle)}
               open={openTask}
               setOpen={setOpenTask}
+              pastValue={task.title}
             />
           </div>
         </DialogTitle>
 
-        <p className="text-sm  text-[#727481]">{task.description}</p>
+        <p className="text-sm text-[#64748B] dark:text-[#A3A3A3]">
+          {task.description}
+        </p>
 
         <div className="space-y-4">
-          <p className="text-sm font-medium">
+          <p className="text-sm font-medium text-[#64748B] dark:text-[#A3A3A3]">
             Subtasks ({completedCount} of {task.subtasks.length})
           </p>
           {task.subtasks.map((subtask) => (
             <div
               key={subtask.id}
               className={
-                "group flex items-center text-[#9e9ea6] gap-3 px-2 py-3 rounded-[4px] bg-[#21212d] "
+                "group flex items-center text-[#9e9ea6] gap-3 px-2 py-3 rounded-[4px] bg-[#F1F3F8] dark:bg-black "
               }
             >
               <Checkbox
@@ -101,12 +107,13 @@ export default function ViewTaskDialog({
                 onCheckedChange={() =>
                   onToggleSubtask(list.id, task.id, subtask.id)
                 }
+                className={"border-[#CBD5E1] dark:border-[#4B5563]"}
               />
               <Label
                 htmlFor={`subtask-${subtask.id}`}
                 className={`w-full text-[0.9rem] ${
                   subtask.completed ? "opacity-50 line-through" : ""
-                }`}
+                } text-[#0F172A] dark:text-[#ffffff]`}
               >
                 {subtask.title}
               </Label>
@@ -120,11 +127,12 @@ export default function ViewTaskDialog({
                 }
                 open={openEditSubTask}
                 setOpen={setOpenEditSubTask}
+                pastValue={subtask.title}
               />
               <Button
                 onClick={() => setOpenEditSubTask(!openEditSubTask)}
                 className={
-                  "w-4 h-4 p-3 m-0 font-bold rounded-sm justify-center bg-[#21212d] items-center hidden group-hover:flex hover:bg-violet-500 hover:text-black"
+                  "w-4 h-4 p-3 m-0 font-bold rounded-sm justify-center bg-[#21212d] dark:text-white items-center hidden group-hover:flex hover:bg-violet-500 hover:text-black"
                 }
               >
                 <FaEdit />
@@ -132,7 +140,7 @@ export default function ViewTaskDialog({
               <Button
                 onClick={() => deleteSubtask(list.id, task.id, subtask.id)}
                 className={
-                  "w-4 h-4 p-3 m-0 font-bold rounded-sm justify-center bg-[#21212d] items-center hidden group-hover:flex hover:bg-violet-500 hover:text-black"
+                  "w-4 h-4 p-3 m-0 font-bold rounded-sm justify-center bg-[#21212d] dark:text-white items-center hidden group-hover:flex hover:bg-violet-500 hover:text-black"
                 }
               >
                 X
@@ -142,9 +150,13 @@ export default function ViewTaskDialog({
         </div>
 
         <div className="space-y-1">
-          <Label>Status</Label>
+          <Label className={"text-[#64748B] dark:text-[#A3A3A3]"}>Status</Label>
           <Select value={list.title} disabled>
-            <SelectTrigger className={"w-full border-[#44474d] rounded-[4px] "}>
+            <SelectTrigger
+              className={
+                "w-full border-[#44474d] rounded-[4px] text-[#64748B] dark:text-[#A3A3A3]"
+              }
+            >
               <SelectValue>{list.title}</SelectValue>
             </SelectTrigger>
             <SelectContent>

@@ -1,16 +1,15 @@
 import { TbLayoutBoardSplit } from "react-icons/tb";
 import { MdLibraryAdd } from "react-icons/md";
 
-export default function ButtonAddBoard({ closed }) {
+export default function ButtonAddBoard({ closed, onClick }) {
   const purple = "#645fc6";
   const background_Sidebar = "#2c2c38";
 
   return (
     <div
-      className="w-[92%] h-10 pl-[7%] flex items-center rounded-r-full gap-4 cursor-pointer"
+      onClick={onClick}
+      className="w-[92%] h-10 text-[#645fc6] bg-[] pl-[7%] flex items-center rounded-r-full gap-2 cursor-pointer dark:bg-[#2c2c38] dark:text-[#645fc6]"
       style={{
-        backgroundColor: background_Sidebar,
-        color: purple,
         justifyContent: closed ? "center" : "start",
       }}
     >

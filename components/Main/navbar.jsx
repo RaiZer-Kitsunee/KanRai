@@ -1,5 +1,5 @@
 import ListDialog from "../Dialog/list_dialog";
-import { use, useState } from "react";
+import { use, useEffect, useState } from "react";
 import NavButton from "../My ui/nav_button";
 import AddTaskDialog from "../Dialog/task_dialog";
 import MyDropdownMenu from "../My ui/dropdown_menu";
@@ -18,28 +18,38 @@ export default function Navbar({
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
   const [subtasks, setSubtasks] = useState([""]);
-  const [status, setStatus] = useState(1);
+  const [status, setStatus] = useState(0);
+
+  const [openColum, setColumOpen] = useState(false);
+  const [openTask, setTaskOpen] = useState(false);
 
   const [changing, setChanging] = useState(false);
 
+  // Ensure boardTitle is set to selectedBoard.title when editing starts
+  useEffect(() => {
+    if (changing) {
+      setBoardTitle(selectedBoard.title || "");
+    }
+  }, [changing, selectedBoard.title]);
+
   return (
     <div
-      className={`w-full h-20 px-5 flex justify-between items-center ${
+      className={`w-full h-20 bg-[#FFFFFF] px-5 flex justify-between items-center ${
         changing ? "gap-5" : ""
-      }`}
-      style={{ backgroundColor: background_Sidebar, width: "100%" }}
+      } dark:bg-[#2c2c38]`}
     >
-      {/* title of the board */}
       {changing ? (
         <Input
+          className={"focus"}
           value={boardTitle}
           onChange={(e) => setBoardTitle(e.target.value)}
+          autoFocus
         />
       ) : (
-        <h2 className="text-[1.3rem] font-semibold">{selectedBoard.title}</h2>
+        <h2 className="text-[1.3rem] font-semibold text-black dark:text-white">
+          {selectedBoard.title}
+        </h2>
       )}
-
-      {/* the buttons */}
       {changing ? (
         <NavButton
           onClick={() => {
@@ -59,8 +69,13 @@ export default function Navbar({
               addListToSelectedBoard(listTitle);
               setListTitle("");
             }}
+            open={openColum}
+            setOpen={setColumOpen}
           >
-            <NavButton title={"+ New Colum"} />
+            <NavButton
+              onClick={() => setColumOpen(!openColum)}
+              title={"+ New Colum"}
+            />
           </ListDialog>
 
           <AddTaskDialog
@@ -76,8 +91,13 @@ export default function Navbar({
             status={status}
             setStatus={setStatus}
             selectedBoard={selectedBoard}
+            open={openTask}
+            setOpen={setTaskOpen}
           >
-            <NavButton title={"+ Add New Task"} />
+            <NavButton
+              onClick={() => setTaskOpen(!openTask)}
+              title={"+ Add New Task"}
+            />
           </AddTaskDialog>
 
           {/* just the drop menu of the three point */}

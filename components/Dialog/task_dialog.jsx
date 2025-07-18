@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   Dialog,
   DialogTrigger,
@@ -33,6 +32,8 @@ export default function AddTaskDialog({
   status,
   setStatus,
   selectedBoard,
+  open,
+  setOpen,
 }) {
   const addSubtask = () =>
     setSubtasks([...subtasks, { title: "", completed: false }]);
@@ -49,22 +50,61 @@ export default function AddTaskDialog({
     setTitle("");
     setDescription("");
     setSubtasks([{ title: "", completed: false }]);
-    setStatus("Todo");
+    setStatus(0);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (title.trim() === "") {
+      alert("title is empty");
+      return;
+    }
+
+    if (description.trim() === "") {
+      alert("description is empty");
+      return;
+    }
+
+    if (subtasks.find((sub) => sub.title.trim() === "")) {
+      alert("subtask is empty");
+      return;
+    }
+
+    setOpen(false);
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} setOpen={setOpen}>
       <DialogTrigger>{children}</DialogTrigger>
-      <DialogContent className={"bg-[#2c2c38] border-none w-[40%]"}>
+      <DialogContent
+        className={"bg-[#FFFFFF] border-none dark:bg-[#2c2c38] w-[40%]"}
+      >
         <DialogHeader>
-          <DialogTitle>Add New Task</DialogTitle>
+          <DialogTitle
+            className={
+              "flex justify-between text-[#0F172A] dark:text-[#FFFFFF]"
+            }
+          >
+            <p>Add New Task</p>
+            <p
+              onClick={() => setOpen(!open)}
+              className="text-[0.9rem] cursor-pointer"
+            >
+              X
+            </p>
+          </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
           <div>
-            <Label className={"mb-2"}>Title</Label>
+            <Label className={"mb-2 text-[#64748B] dark:text-[#A3A3A3]"}>
+              Title
+            </Label>
             <Input
-              className={"border-[#44474d] rounded-[4px]"}
+              className={
+                "border-[#CBD5E1] bg-[#F1F5F9] text-[#1E293B] dark:bg-[#1E1E2F] dark:border-[#4B5563] dark:text-[#ffffff] rounded-[4px]"
+              }
               placeholder="e.g. Take coffee break"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -72,9 +112,13 @@ export default function AddTaskDialog({
           </div>
 
           <div>
-            <Label className={"mb-2"}>Description</Label>
+            <Label className={"mb-2 text-[#64748B] dark:text-[#A3A3A3]"}>
+              Description
+            </Label>
             <Textarea
-              className={"border-[#44474d] rounded-[4px]"}
+              className={
+                "border-[#CBD5E1] bg-[#F1F5F9] text-[#1E293B] dark:bg-[#1E1E2F] dark:border-[#4B5563] dark:text-[#ffffff] rounded-[4px]"
+              }
               placeholder="e.g. It's always good to take a break..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -82,11 +126,15 @@ export default function AddTaskDialog({
           </div>
 
           <div>
-            <Label className={"mb-2"}>Subtasks</Label>
+            <Label className={"mb-2 text-[#64748B] dark:text-[#A3A3A3]"}>
+              Subtasks
+            </Label>
             {subtasks.map((subtask, index) => (
               <div key={index} className="flex gap-2 mb-2">
                 <Input
-                  className={"border-[#44474d] rounded-[4px]"}
+                  className={
+                    "border-[#CBD5E1] bg-[#F1F5F9] text-[#1E293B] dark:bg-[#1E1E2F] dark:border-[#4B5563] dark:text-[#ffffff] rounded-[4px]"
+                  }
                   value={subtask.title}
                   placeholder="e.g. Make coffee"
                   onChange={(e) => updateSubtask(index, e.target.value)}
@@ -102,7 +150,7 @@ export default function AddTaskDialog({
             ))}
             <Button
               variant="outline"
-              className="w-full border-[#44474d] bg-white text-[#645fc6] hover:bg-[#19191a] hover:text-white"
+              className="w-full border-[#44474d] bg-[#19191a] text-white hover:bg-white hover:text-[#645fc6]"
               onClick={addSubtask}
             >
               + Add New Subtask
@@ -110,14 +158,19 @@ export default function AddTaskDialog({
           </div>
 
           <div>
-            <Label className={"mb-2"}>Status</Label>
+            <Label className={"mb-2 text-[#64748B] dark:text-[#A3A3A3]"}>
+              Status
+            </Label>
             <Select value={status} onValueChange={setStatus}>
               <SelectTrigger
-                className={"w-full border-[#44474d] rounded-[4px]"}
+                className={
+                  "w-full border-[#44474d] rounded-[4px] text-[#64748B] dark:text-[#A3A3A3]"
+                }
               >
                 <SelectValue>
                   {status
-                    ? selectedBoard?.lists?.find((list) => list.id === status)?.title
+                    ? selectedBoard?.lists?.find((list) => list.id === status)
+                        ?.title
                     : "Select status"}
                 </SelectValue>
               </SelectTrigger>
@@ -136,8 +189,11 @@ export default function AddTaskDialog({
 
         <DialogClose asChild>
           <Button
-            onClick={handleCreate}
-            className="w-full rounded-2xl bg-[#645fc6] text-white"
+            onClick={(e) => {
+              handleSubmit(e);
+              handleCreate();
+            }}
+            className="w-full rounded-2xl bg-black text-white dark:bg-[#645fc6] dark:text-white hover:bg-[#645fc6]  "
           >
             Create Task
           </Button>

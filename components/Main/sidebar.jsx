@@ -6,8 +6,9 @@ import { CgGoogleTasks } from "react-icons/cg";
 import { IoMdEye } from "react-icons/io";
 import ButtonAddBoard from "../My ui/button_addboard";
 import ButtonBoard from "../My ui/button_board";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BoardDialog from "../Dialog/board_dialog";
+import { useTheme } from "next-themes";
 
 export default function Sidebar({
   boards,
@@ -16,26 +17,44 @@ export default function Sidebar({
   closed,
   setClosed,
 }) {
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
   const [boardTitle, setBoardTitle] = useState("");
+  const [open, setOpen] = useState(false);
 
   const purple = "#645fc6";
-  const background_Sidebar = "#2c2c38";
   const background_MainContent = "#21212d";
   const text = "#8e94a3";
 
+  useEffect(() => {
+    const data = localStorage.getItem("theme");
+    setTheme(data);
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  if (!mounted) return;
   return (
     <div
-      className="h-full flex flex-col justify-between transition-normal duration-300"
-      style={{
-        backgroundColor: background_Sidebar,
-        width: closed ? "3%" : "21%",
-      }}
+      className={`h-full ${
+        closed ? "w-[3%]" : "w-[21%]"
+      } bg-[#FFFFFF] flex flex-col justify-between transition-normal duration-300 dark:bg-[#2c2c38]`}
     >
       <div>
         {/* logo  */}
         <div className="flex items-center pt-5.5 pb-10 px-[6%] gap-1">
-          <CgGoogleTasks className="text-4xl" style={{ color: purple }} />
-          {closed ? <></> : <h1 className="text-3xl font-bold">KanRai</h1>}
+          <CgGoogleTasks className="text-4xl text-[#645fc6] " />
+          {closed ? (
+            <></>
+          ) : (
+            <h1 className="text-3xl text-black font-bold dark:text-white">
+              KanRai
+            </h1>
+          )}
         </div>
 
         {/* all board */}
@@ -43,10 +62,7 @@ export default function Sidebar({
           {closed ? (
             <></>
           ) : (
-            <h3
-              className="pl-[8%] uppercase font-semibold text-[0.7rem] tracking-[0.15rem]"
-              style={{ color: text }}
-            >
+            <h3 className="pl-[8%] text-[#64748B] uppercase font-semibold text-[0.7rem] tracking-[0.15rem] dark:text-[#8e94a3]">
               All boards ({boards.length})
             </h3>
           )}
@@ -71,8 +87,10 @@ export default function Sidebar({
                 setBoardTitle("");
               }}
               buttonName={"Save"}
+              open={open}
+              setOpen={setOpen}
             >
-              <ButtonAddBoard closed={closed} />
+              <ButtonAddBoard onClick={() => setOpen(!open)} closed={closed} />
             </BoardDialog>
           </div>
         </div>
@@ -84,18 +102,33 @@ export default function Sidebar({
         style={{ padding: closed && 0, marginBottom: closed && 15 }}
       >
         {/* theme button */}
-        <div
-          className="w-[90%] flex justify-center py-3 gap-5 rounded-md"
-          style={{ backgroundColor: background_MainContent }}
-        >
+        <div className="w-[90%] flex bg-[#f7f9fc] justify-center py-3 gap-5 rounded-md dark:bg-[#21212d]">
           {closed ? (
             <>
-              <MdLightMode className="text-[1.2rem]" style={{ color: text }} />
+              {theme === "dark" ? (
+                <MdLightMode
+                  onclick={() => setTheme("light")}
+                  className="text-[1.2rem] cursor-pointer"
+                  style={{ color: text }}
+                />
+              ) : (
+                <MdDarkMode
+                  onclick={() => setTheme("dark")}
+                  className="text-[1.2rem] cursor-pointer"
+                  style={{ color: text }}
+                />
+              )}
             </>
           ) : (
             <>
               <MdDarkMode className="text-[1.2rem]" style={{ color: text }} />
-              <Switch className=" data-[state=checked]:bg-[#645fc6]" />
+              <Switch
+                checked={theme === "dark" ? false : true}
+                onCheckedChange={() =>
+                  setTheme(theme === "dark" ? "light" : "dark")
+                }
+                className=" data-[state=checked]:bg-[#645fc6]"
+              />
               <MdLightMode className="text-[1.2rem]" style={{ color: text }} />
             </>
           )}

@@ -12,7 +12,7 @@ export default function BoardPage({
   editSubTask,
 }) {
   return (
-    <div className="w-full bg-[#21212d] flex pt-5 px-6  gap-4">
+    <div className="w-full bg-[#F7F9FC] flex pt-5 px-6  gap-4 dark:bg-[#21212d]">
       {/* the list of tasks */}
       {selectedBoard.lists.map((list) => (
         <TaskList
